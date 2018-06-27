@@ -70,6 +70,71 @@ def get_classroom_ids():
     return ids
 
 '''
+    get courses data
+'''
+def getData(type,name):
+    if str(type) == 'teacher':
+        data_1 = Classtable.objects.filter(teacher_name = name)
+        data_2 = dataDeal(data_1)
+    elif str(type) == 'student':
+        data_1 = Classtable.objects.all()
+        data_2 = dataDeal(data_1)
+        data_2 = data_2[0:min(9,len(data_2))]
+    return data_2
+'''
+    if str(type) == "teacher":
+        sql = "select * from Classtable where teacher_name = \'"
+        sql = sql + str(name) + "\';"
+    elif str(type) == "student":
+        sql = "select * from Classtable;"
+    cur.execute(sql)
+    data_1 = cur.fetchall()
+    data_2 = dataDeal(data_1)
+    if str(type) == "student":
+        data_2 = data_2[0:min(9,len(data_2))]
+'''
+
+def dataDeal(data_1):
+    new_data = []
+    for item in data_1:
+        temp = []
+        temp.append(item.course_identity)
+        temp.append(item.course_name)
+        temp.append(item.teacher_name)
+        temp.append(item.course_time_1)
+        temp.append(item.classroom_name_1)
+        new_data.append(temp)
+        if item.course_period == 2:
+            temp = []
+            temp.append(item.course_identity)
+            temp.append(item.course_name)
+            temp.append(item.teacher_name)
+            temp.append(item.course_time_2)
+            temp.append(item.classroom_name_2)
+            new_data.append(temp)
+    return new_data
+'''
+    new_data = []
+    for item in data_1:
+        temp = []
+        temp.append(item[1])
+        temp.append(item[2])
+        temp.append(item[3])
+        temp.append(item[6])
+        temp.append(item[10])
+        new_data.append(temp)
+        if item[5] == 2:
+            temp = []
+            temp.append(item[1])
+            temp.append(item[2])
+            temp.append(item[3])
+            temp.append(item[7])
+            temp.append(item[11])
+            new_data.append(temp)
+    return new_data
+'''
+
+'''
     Scheduler and Database
 '''
 
